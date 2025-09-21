@@ -3,3 +3,10 @@
     --spruce-dark-green-hover: #0E332B;
     --spruce-light-green: #79db8e;
 }
+
+/* Force number input arrows to be visible */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: auto;
+    opacity: 1;
+}

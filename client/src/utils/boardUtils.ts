@@ -1,11 +1,11 @@
 import { XorO } from "../types";
 
 
-export const createEmptyBoard = (): (XorO | null)[][] => [
-    [null, null, null],
-    [null, null, null],
-    [null, null, null]
-];
+export const createEmptyBoard = (boardSize: number): (XorO | null)[][] => {
+    return Array.from({ length: boardSize }, () => {
+        return Array.from({ length: boardSize }, () => null)
+    });
+};
 
 export const isBoardFull = (board: (XorO | null)[][]): boolean => {
     return board.every(row => row.every(cell => cell !== null));

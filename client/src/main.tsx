@@ -3,31 +3,32 @@ import useGame from "./hooks/useGame";
 
 import Board from "./components/Board";
 import Modal from "./components/Modal";
-
+import GameControls from "./components/GameControls";
 
 const Main = () => {
   const {
-    board,
     currentPlayer,
     gameStatus,
-    modal,
     winningPlayer,
+    board,
+    modal,
     playMove,
-    resetGame
+    resetGame,
+    changeBoardSize
   } = useGame();
 
   return (
     <div className="min-h-screen bg-[var(--spruce-dark-green)]">
       <div className="flex flex-col pt-10 items-center gap-10">
         <div className="font-bold text-center text-8xl text-white">Tic Tac Toe</div>
-        
-        {gameStatus === "playing" && (
-          <div className="font-bold text-xl text-white">Current Player: {currentPlayer}</div>
-        )}
-        
-        {gameStatus === "winner" && (
-          <div className="font-bold text-xl text-white">Winner: {winningPlayer}!</div>
-        )}
+
+        <GameControls
+          boardSize={board.length}
+          currentPlayer={currentPlayer}
+          gameStatus={gameStatus}
+          winningPlayer={winningPlayer}
+          onBoardSizeChange={changeBoardSize}
+        />
         
         <div className="bg-white/10 p-6 rounded-lg backdrop-blur-sm">
           <Board

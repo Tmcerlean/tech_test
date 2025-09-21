@@ -10,7 +10,8 @@ const useGame = () => {
     const [gameStatus, setGameStatus] = useState<GameStatus>("playing");
     const [winningPlayer, setWinningPlayer] = useState<XorO | null>(null);
     const [currentPlayer, setCurrentPlayer] = useState<XorO>("X");
-    const [board, setBoard] = useState(createEmptyBoard());
+    const [boardSize, setBoardSize] = useState<number>(3);
+    const [board, setBoard] = useState(createEmptyBoard(boardSize));
     const [modal, setModal] = useState<{
         buttonText?: string;
         isOpen: boolean;
@@ -37,7 +38,7 @@ const useGame = () => {
         setCurrentPlayer("X");
         setGameStatus("playing");
         setWinningPlayer(null);
-        setBoard(createEmptyBoard());
+        setBoard(createEmptyBoard(boardSize));
         setModal(null);
     };
 
@@ -77,12 +78,24 @@ const useGame = () => {
         switchPlayer();
     };
 
+    const changeBoardSize = (newSize: number) => {
+        if (newSize >= 3 && newSize <= 15) {
+            setBoardSize(newSize);
+            setBoard(createEmptyBoard(newSize));
+            setCurrentPlayer("X");
+            setGameStatus("playing");
+            setWinningPlayer(null);
+            setModal(null);
+        }
+    };
+
     return {
         board,
         currentPlayer,
         gameStatus,
         modal,
         winningPlayer,
+        changeBoardSize,
         playMove,
         resetGame,
         showErrorModal,
