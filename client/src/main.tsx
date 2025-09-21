@@ -1,22 +1,58 @@
-import React, { useState } from 'react'
-import { XorO } from './types'
+import React from "react";
+import useGame from "./hooks/useGame";
+
+import Board from "./components/Board";
+import Modal from "./components/Modal";
 
 
-export const Main = () => {
-  const [board, setBoard] = useState<(XorO | undefined)[][]>([
-    [undefined, undefined, undefined],
-    [undefined, undefined, undefined],
-    [undefined, undefined, undefined]
-  ])
+const Main = () => {
+  const {
+    board,
+    currentPlayer,
+    gameStatus,
+    modal,
+    winningPlayer,
+    playMove,
+    resetGame
+  } = useGame();
 
-  return <div className='flex flex-col mt-10 items-center gap-10'>
-    <div className='font-bold text-2xl'>Tic Tac Toe</div>
-    <div className='flex flex-col gap-1'>
-      {board.map(row => <div className='flex gap-1'>
-        {row.map(column => <div className='border-2 border-gray-900 w-10 h-10 cursor-pointer items-center justify-center text-2xl font-bold flex'>
-          {column}
-        </div>)}
-      </div>)}
+  return (
+    <div className="min-h-screen bg-[var(--spruce-dark-green)]">
+      <div className="flex flex-col pt-10 items-center gap-10">
+        <div className="font-bold text-center text-8xl text-white">Tic Tac Toe</div>
+        
+        {gameStatus === "playing" && (
+          <div className="font-bold text-xl text-white">Current Player: {currentPlayer}</div>
+        )}
+        
+        {gameStatus === "winner" && (
+          <div className="font-bold text-xl text-white">Winner: {winningPlayer}!</div>
+        )}
+        
+        <div className="bg-white/10 p-6 rounded-lg backdrop-blur-sm">
+          <Board
+            board={board}
+            onCellClick={playMove}
+          />
+        </div>
+
+        {modal && (
+          <Modal
+            isOpen={modal.isOpen}
+            onClose={modal.onClose}
+            title={modal.title}
+            message={modal.message}
+            type={modal.type}
+            buttonText={modal.buttonText}
+          />
+        )}
+        
+        {gameStatus !== "playing" && (
+          <button onClick={resetGame}>New Game</button>
+        )}
+      </div>
     </div>
-  </div>
-}
+  );
+};
+
+export default Main;
