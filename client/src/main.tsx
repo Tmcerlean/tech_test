@@ -4,6 +4,8 @@ import useGame from "./hooks/useGame";
 import Board from "./components/Board";
 import Modal from "./components/Modal";
 import GameControls from "./components/GameControls";
+import GameHistory from "./components/GameHistory";
+
 
 const Main = () => {
   const {
@@ -29,12 +31,18 @@ const Main = () => {
           winningPlayer={winningPlayer}
           onBoardSizeChange={changeBoardSize}
         />
-        
-        <div className="bg-white/10 p-6 rounded-lg backdrop-blur-sm">
-          <Board
-            board={board}
-            onCellClick={playMove}
-          />
+
+        <div className="flex gap-8 items-start">
+          <div className="bg-white/10 p-6 rounded-lg backdrop-blur-sm">
+            <Board
+              board={board}
+              onCellClick={playMove}
+            />
+          </div>
+
+          <div className="w-80">
+            <GameHistory />
+          </div>
         </div>
 
         {modal && (
@@ -47,7 +55,7 @@ const Main = () => {
             buttonText={modal.buttonText}
           />
         )}
-        
+
         {gameStatus !== "playing" && (
           <button onClick={resetGame}>New Game</button>
         )}

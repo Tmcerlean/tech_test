@@ -4,8 +4,8 @@ import { XorO } from "../../types";
 
 
 interface CellProps {
-    onClick: () => void;
     value: XorO | null;
+    onClick: () => void;
 }
 
 

@@ -4,9 +4,12 @@ import { GameStatus, XorO } from "../types";
 import { checkWinCondition } from "../utils/gameUtils";
 import { createEmptyBoard, isBoardFull, placePiece } from "../utils/boardUtils";
 import { createErrorModal, createWinnerModal, createDrawModal } from "../utils/modalUtils";
+import { useGameAPI } from "./useGameAPI";
 
 
 const useGame = () => {
+    const { saveGame } = useGameAPI();
+
     const [gameStatus, setGameStatus] = useState<GameStatus>("playing");
     const [winningPlayer, setWinningPlayer] = useState<XorO | null>(null);
     const [currentPlayer, setCurrentPlayer] = useState<XorO>("X");
@@ -28,10 +31,12 @@ const useGame = () => {
     const endGame = (winner: XorO) => {
         setGameStatus("winner");
         setWinningPlayer(winner);
+        saveGame(winner);
     };
 
     const setDraw = () => {
         setGameStatus("draw");
+        saveGame("Draw");
     };
 
     const resetGame = () => {
@@ -90,16 +95,16 @@ const useGame = () => {
     };
 
     return {
-        board,
-        currentPlayer,
         gameStatus,
-        modal,
         winningPlayer,
-        changeBoardSize,
+        currentPlayer,
+        board,
+        modal,
         playMove,
         resetGame,
         showErrorModal,
-        showWinnerModal
+        showWinnerModal,
+        changeBoardSize
     }
 };
 
